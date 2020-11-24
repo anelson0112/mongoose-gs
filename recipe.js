@@ -20,15 +20,25 @@ db.once('open', function(){
 
     
 //schema
+
+const ingredientSchema = new mongoose.Schema({
+    ingredients: [{
+          ingredientName: String,
+          measurement: String,
+          amount: Number,
+    }]
+  });
     const recipeSchema = new mongoose.Schema({
         name : {type: String, required: true, maxlength: 35},
         description : {type: String, required: true, maxlength: 50},
         instructions : {type: String, required: true, maxlength: 500},
-        ingredients: [{
+        ingredients : [ingredientSchema],
+        /*ingredients: [{
             ingredientName: String,
             measurement: String,
             amount: Number,
-        }],
+        }],*/
+        
         
     });
 
@@ -56,11 +66,13 @@ db.once('open', function(){
             measurement: "cups",
             amount: 1.5,
         },
+        
         {
             ingredientName: "sugar",
             measurement: "cup",
             amount: .5,
         },
+        
         {
             ingredientName: "egg",
             measurement: "whole",
@@ -106,9 +118,10 @@ db.once('open', function(){
         if (err) return console.error(err);
         console.log(recipe);
     })
-
+    /*pbCerealBites.test();
+    pbCookies.test();
     console.log(pbCerealBites);
-    console.log(pbCookies);
+    console.log(pbCookies);*/
 
 });
 
