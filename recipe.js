@@ -19,15 +19,17 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function(){
 
     
-//schema
+//schemas one for ingredients and one for the recipe form
 
 const ingredientSchema = new mongoose.Schema({
+    //ingredient object array
     ingredients: [{
           ingredientName: String,
           measurement: String,
           amount: Number,
     }]
   });
+  //recipe then add ingredient schema
     const recipeSchema = new mongoose.Schema({
         name : {type: String, required: true, maxlength: 35},
         description : {type: String, required: true, maxlength: 50},
@@ -42,7 +44,7 @@ const ingredientSchema = new mongoose.Schema({
         
     });
 
-    //method
+    //method, just to do some checking. Will print comment to see if it's working
     recipeSchema.methods.test = function(){
     let name;
 
@@ -53,10 +55,10 @@ const ingredientSchema = new mongoose.Schema({
     }
     console.log(name);
     }
-    //model
+    //model creation
     const Recipe = mongoose.model('Recipe', recipeSchema);
 
-    //documents
+    //documents- the actual recipes
     const pbCookies = new Recipe ({
         name: "Peanut Butter Cookies",
         description: "Easy peasey, gooey cookies",
@@ -103,8 +105,9 @@ const ingredientSchema = new mongoose.Schema({
 
     });
 
-    //save 
+    //save the recipes into the DB
     pbCookies.save(function(err, recipe){
+        //return error code if not saved
         if (err) return console.error(err);
         recipe.test();
     });
@@ -113,15 +116,74 @@ const ingredientSchema = new mongoose.Schema({
         if (err) return console.error(err);
         recipe.test();
     });
-
-    Recipe.find(function(err,recipe){
-        if (err) return console.error(err);
-        console.log(recipe);
-    })
+    //find all the recipes and print, error if not found
+    
     /*pbCerealBites.test();
     pbCookies.test();
     console.log(pbCerealBites);
     console.log(pbCookies);*/
 
+    Recipe.create(
+        {name:"Peanut Butter Balls",
+        description: "Quick energy bites for those on the move",
+        instructions: "mix all ingredients in a bowl, scoop into 1 inch balls, refrigerate until set",
+        ingredients: [{
+            ingredientName : "peanut butter",
+            measurement: "cups",
+            amount: 2,
+        },
+        {
+            ingredientName: "oats",
+            measurement : "cups",
+            amount: 2,
+        },
+        {
+            ingredientName: "flax",
+            measurement: "TBSP",
+            amount: 2,
+        }],
+    
+    
+    }, 
+    
+    function(err,) {
+        if (err) return console.error(err);
+        console.log();
+    });
+
+    Recipe.find(function(err,recipe){
+        if (err) return console.error(err);
+        console.log(recipe[0].ingredients[0]);
+    });
+
+    pbCookies.test();
+    
+    pbCookies.name = "3 Ingredient Peanut Butter Cookies";
+    
+    
+    Recipe.find(function(err,recipe){
+        if (err) return console.error(err);
+        console.log(recipe);
+    });
+
+    Recipe.deleteOne({ name: "Peanut Butter Balls"}, function(err){
+        if (err) console.error(err);
+        console.log("Deleted");
+    });
+    
+    Recipe.find(function(err,recipe){
+        if (err) return console.error(err);
+        console.log(recipe);
+    }); 
+     /*Recipe.updateOne({pbCerealBites}, { amount: -.5},function(err){
+         if (err) return console.error(err);
+         console.log(Recipe[1]);
+         //pbCerealBites.ingredients;
+
+
+     });*/
+
 });
+
+
 
