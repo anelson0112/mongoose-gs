@@ -122,7 +122,7 @@ const ingredientSchema = new mongoose.Schema({
     pbCookies.test();
     console.log(pbCerealBites);
     console.log(pbCookies);*/
-
+//using the create method to make a new recipe
     Recipe.create(
         {name:"Peanut Butter Balls",
         description: "Quick energy bites for those on the move",
@@ -150,14 +150,14 @@ const ingredientSchema = new mongoose.Schema({
         if (err) return console.error(err);
         console.log();
     });
-
+//finding the recipes with ingredients
     Recipe.find(function(err,recipe){
         if (err) return console.error(err);
         console.log(recipe[0].ingredients[0]);
     });
-
+//calling the test method to print
     pbCookies.test();
-    
+//update name in pcCookie recipe    
     pbCookies.name = "3 Ingredient Peanut Butter Cookies";
     
     
@@ -165,7 +165,7 @@ const ingredientSchema = new mongoose.Schema({
         if (err) return console.error(err);
         console.log(recipe);
     });
-
+//delete balls recipe
     Recipe.deleteOne({ name: "Peanut Butter Balls"}, function(err){
         if (err) console.error(err);
         console.log("Deleted");
@@ -174,7 +174,8 @@ const ingredientSchema = new mongoose.Schema({
     Recipe.find(function(err,recipe){
         if (err) return console.error(err);
         console.log(recipe);
-    }); 
+    });
+    //update function 
      /*Recipe.updateOne({pbCerealBites}, { amount: -.5},function(err){
          if (err) return console.error(err);
          console.log(Recipe[1]);
